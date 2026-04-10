@@ -8,7 +8,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   return (
     <div className="w-full flex flex-row justify-between items-center px-3 py-2 md:px-10 shadow-sm">
-      <p className="text-lg font-semibold">Get Better</p>
+      <p className="text-lg font-semibold cursor-pointer" onClick={()=>navigate('/')}>Get Better</p>
         {
           !isloggedIn && (<div className="flex flex-row gap-3">
             <Button className="cursor-pointer" onClick={()=> navigate('/login')}>Login</Button>

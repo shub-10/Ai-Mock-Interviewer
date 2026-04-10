@@ -1,13 +1,13 @@
 import React from 'react'
 // import { Button } from "@/components/ui/button"
-import { Routes, Route } from 'react-router-dom';
-import { Navbar } from './components/Navbar';
-import {Home} from './pages/Home';
+import { Routes, Route } from 'react-router-dom'
+import { Navbar } from './components/Navbar'
+import {Home} from './pages/Home'
 import {Footer} from './components/Footer'
 import {Login} from './pages/Login'
 import {Signup} from './pages/Signup'
-import {Interview} from './pages/Interview';
-
+import {Interview} from './pages/Interview'
+import {InterviewRoom} from './pages/InterviewRoom'
 
 export const App = () => {
   return (
@@ -19,6 +19,7 @@ export const App = () => {
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<Signup/>} />
           <Route path='/job-interviews' element={<Interview/>} />
+          <Route path='/:slug/interview' element={<InterviewRoom/>}/>
         </Routes>
       </main>
       <Footer></Footer>
