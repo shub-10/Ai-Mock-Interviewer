@@ -9,9 +9,10 @@ export const InterviewProvider = ({children})=>{
     const [selectedRound, setSelectedRound] = useState('')
     const [jobTitle, setJobTitle] = useState('');
     const [interviewType, setInterviewType] = useState('');
+    const [jobDescription, setJobDescription] = useState('');
     return (
       <InterviewContext.Provider value={{selectedRole, setSelectedRole, difficultyLevel, setDifficultyLevel, interviewCategory, setInterviewCategory, selectedRound, setSelectedRound,
-        jobTitle, setJobTitle,interviewType, setInterviewType
+        jobTitle, setJobTitle,interviewType, setInterviewType, jobDescription, setJobDescription
       }}>
         {children}
       </InterviewContext.Provider>
