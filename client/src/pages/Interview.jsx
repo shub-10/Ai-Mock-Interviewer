@@ -5,7 +5,7 @@ import {useInterview} from '../Context/interviewContext'
 import {RoleBasedContent} from '../components/RoleBasedContent'
 import {JdbasedContent} from '../components/JdbasedContent'
 export const Interview = () => {
-  const {interviewCategory, setInterviewCategory, selectedRole, setSelectedRole} = useInterview();
+  const {interviewCategory, setInterviewCategory} = useInterview();
   const tabs = [
     { id: 'Role', desc: "Role Based" }, { id: 'JD', desc: "JD Based" }
   ]
