@@ -1,18 +1,23 @@
 import React from 'react'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-
+import { useInterview} from '../Context/interviewContext'
+import {useNavigate} from 'react-router-dom'
 export const JdbasedContent = () => {
-
-  const [jobTitle, setJobTitle] = useState('')
-  const [interviewType, setInterviewType] = useState('')
-  const [jobDescription, setJobDescription] = useState('')
-
+  const {jobTitle, setJobTitle,jobDescription, setJobDescription, interviewType, setInterviewType } = useInterview()
+  const navigate = useNavigate();
+ 
+  const createSlug = (title) => {
+    return title.toLowerCase().replace(/\s+/g, "-");
+  };
   const handleSubmit = () => {
+    if(!jobTitle || !interviewType || !jobDescription) {
+    alert("All fields are mandatory")
+    return
+  }
     console.log({ jobTitle, interviewType, jobDescription })
+    navigate(`/${createSlug(jobTitle)}/interview`)
   }
 
   return (
