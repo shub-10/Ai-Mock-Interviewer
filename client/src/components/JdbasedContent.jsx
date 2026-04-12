@@ -2,27 +2,31 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useInterview} from '../Context/interviewContext'
-import {useNavigate} from 'react-router-dom'
+import { useInterview } from '../Context/interviewContext'
+import { useNavigate } from 'react-router-dom'
+import {useAuth} from '../Context/authContext'
+
+
 export const JdbasedContent = () => {
-  const {jobTitle, setJobTitle,jobDescription, setJobDescription, interviewType, setInterviewType } = useInterview()
+  const { jobTitle, setJobTitle, jobDescription, setJobDescription, interviewType, setInterviewType } = useInterview()
+  const {isloggedIn} = useAuth()
   const navigate = useNavigate();
- 
+
   const createSlug = (title) => {
-    return title.toLowerCase().replace(/\s+/g, "-");
+    return title.toLowerCase().replace(/\s+/g, "-")
   };
   const handleSubmit = () => {
-    if(!jobTitle || !interviewType || !jobDescription) {
-    alert("All fields are mandatory to be filled")
-    return
-  }
-    console.log({ jobTitle, interviewType, jobDescription })
+    if(!isloggedIn) navigate('/login')
+    if (!jobTitle || !interviewType || !jobDescription) {
+      alert("All fields are mandatory to be filled")
+      return
+    }
     navigate(`/${createSlug(jobTitle)}/interview`)
   }
 
   return (
     <div className="bg-white rounded-lg p-8 flex flex-col gap-6">
-      
+
       <div>
         <p className="text-2xl md:text-3xl font-semibold">Job Description-Based Interview</p>
         <p className="text-gray-400 text-sm mt-1">Fill the details below to create your own custom interview practice</p>

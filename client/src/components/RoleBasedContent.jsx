@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button'
 import { useInterview } from '../Context/interviewContext'
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from '@/components/ui/label'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
-
+import {useAuth} from '../Context/authContext'
 export const RoleBasedContent = () => {
   const { interviewCategory, selectedRole, setSelectedRole, selectedRound, setSelectedRound, difficultyLevel, setDifficultyLevel, } = useInterview()
-
+  const {isloggedIn} = useAuth()
   const navigate = useNavigate();
   const roles = ["Software Engineer", "Full-Stack Developer", "Data Scientist", "Data Engineer", "Data Analyst", "Web Designer"]
   const rounds = ["Non-technical", "Technical", "Behavioral"]
@@ -16,6 +16,10 @@ export const RoleBasedContent = () => {
   const createSlug = (title) => {
     return title.toLowerCase().replace(/\s+/g, "-");
   };
+  const startPractice = () => {
+    if(!isloggedIn) navigate('/login')
+    navigate(`/${createSlug(selectedRole)}/interview`)
+  }
   return (
     <div className="flex flex-col gap-10">
       <div className={selectedRole.length ? "opacity-20" : ""}>
@@ -77,7 +81,7 @@ export const RoleBasedContent = () => {
               <Label>Audio</Label>
             </div>
             <div className="flex justify-end">
-              <Button className="bg-blue-400 px-3 py-2 md:px-4 cursor-pointer" onClick={() => navigate(`/${createSlug(selectedRole)}/interview`)}>START <span className="hidden md:inline">PRACTICE</span></Button>
+              <Button className="bg-blue-400 px-3 py-2 md:px-4 cursor-pointer" onClick={startPractice}>START <span className="hidden md:inline">PRACTICE</span></Button>
               <Button className="bg-white text-black hover:bg-gray-200" onClick={() => setSelectedRole('')}>CANCEL</Button>
             </div>
           </div>
