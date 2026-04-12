@@ -13,7 +13,7 @@ export const JdbasedContent = () => {
   };
   const handleSubmit = () => {
     if(!jobTitle || !interviewType || !jobDescription) {
-    alert("All fields are mandatory")
+    alert("All fields are mandatory to be filled")
     return
   }
     console.log({ jobTitle, interviewType, jobDescription })

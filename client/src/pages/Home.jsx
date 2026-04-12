@@ -1,13 +1,16 @@
 import React from 'react'
 import {Button} from '@/components/ui/button'
 import {useNavigate } from 'react-router-dom'
+import {useEffect} from 'react'
 import {useInterview} from '../Context/interviewContext'
 export const Home = () => {
 
   const navigate = useNavigate();
 
   const {setSelectedRole} = useInterview();
-  setSelectedRole('');
+  useEffect(()=>{
+    setSelectedRole('')
+  },[])
   return (
     <div className=" min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center text-center gap-4 ">
