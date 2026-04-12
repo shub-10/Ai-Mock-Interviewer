@@ -17,8 +17,11 @@ export const RoleBasedContent = () => {
     return title.toLowerCase().replace(/\s+/g, "-");
   };
   const startPractice = () => {
-    if(!isloggedIn) navigate('/login')
-    navigate(`/${createSlug(selectedRole)}/interview`)
+    console.log(isloggedIn)
+    if(!isloggedIn) {
+      navigate('/login') 
+      return}
+    else navigate(`/${createSlug(selectedRole)}/interview`)
   }
   return (
     <div className="flex flex-col gap-10">

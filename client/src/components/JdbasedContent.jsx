@@ -16,12 +16,15 @@ export const JdbasedContent = () => {
     return title.toLowerCase().replace(/\s+/g, "-")
   };
   const handleSubmit = () => {
-    if(!isloggedIn) navigate('/login')
+    if(!isloggedIn){
+      navigate('/login')
+      return
+    }
     if (!jobTitle || !interviewType || !jobDescription) {
       alert("All fields are mandatory to be filled")
       return
     }
-    navigate(`/${createSlug(jobTitle)}/interview`)
+    else navigate(`/${createSlug(jobTitle)}/interview`)
   }
 
   return (
