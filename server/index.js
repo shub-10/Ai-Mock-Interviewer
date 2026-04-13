@@ -7,7 +7,10 @@ const AuthRouter = require('./Routes/auth.route');
 const interviewRouter = require('./Routes/interview.route')
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND
+  origin: process.env.FRONTEND,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }))
 
 app.use('/health', (req, res)=>{
