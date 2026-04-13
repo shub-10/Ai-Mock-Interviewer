@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button"
 import { useEffect, useState } from 'react';
 import { useInterview } from '../Context/interviewContext'
 import { useNavigate } from 'react-router-dom'
-
+import {useSpeech} from '../hooks/useSpeech'
 export const InterviewRoom = () => {
   const { interviewCategory, selectedRole, selectedRound, difficultyLevel, jobTitle, interviewType, jobDescription } = useInterview()
+
+  const {speak, stop} = useSpeech()
   const serverBaseUrl = import.meta.env.VITE_SERVER_BASE_URL
   const [messages, setMessages] = useState([])   // ← chat history for UI
   const [answer, setAnswer] = useState("")
@@ -38,6 +40,7 @@ export const InterviewRoom = () => {
       addMessage('ai', data.question)
       setContext(prev => [...prev, { role: 'Assistant', content: data.question }])
       setLoading(false)
+      speak(data.question)
     }
     startInterview()
   }, [])
@@ -59,6 +62,7 @@ export const InterviewRoom = () => {
     addMessage('ai', data.question)
     setContext(prev => [...prev, { role: 'Assistant', content: data.question }])
     setLoading(false)
+    speak(data.question)
   }
 
   const endInterview = async () => {
