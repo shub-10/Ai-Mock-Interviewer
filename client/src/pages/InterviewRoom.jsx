@@ -40,6 +40,11 @@ export const InterviewRoom = () => {
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ context: initialContext })
       })
+      if(res.status === 429){
+        alert("Daily limit of 2 interview is reached. come back tomorrow")
+        navigate(-1) 
+        return
+      }
       const data = await res.json()
       addMessage('ai', data.question)
       setContext(prev => [...prev, { role: 'Assistant', content: data.question }])

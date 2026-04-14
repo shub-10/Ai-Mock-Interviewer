@@ -3,6 +3,10 @@ const Groq = require('groq-sdk');
 const dotenv = require('dotenv').config();
 const Report = require('../Models/reports.model')
 const authMiddleware = require('../Middlewares/auth.middleware')
+const rateLimiterMiddleware = require('../Middlewares/ratelimiter.middleware')
+const redis = require('../utils/redis')
+
+
 const router = express.Router()
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -95,8 +99,8 @@ const endInterview = async(req, res)=>{
       userId, category:interviewCategory, report,
       ...(interviewCategory === 'Role')?{selectedRole, selectedRound, difficultyLevel}:{jobTitle, interviewType, jobDescription }
     }
-    console.log(interviewData);
     await Report.create(interviewData)
+    await redis.del(`report:${userId}`)
     return res.status(200).json({ message:"Thankyou for taking the Interview. Check your performance in Report section"})
 
   } catch (error) {
@@ -109,8 +113,15 @@ const interviewReports = async(req, res)=>{
   try {
     const userId = req.user.id
 
-    const reports = await Report.find({userId: {$eq: userId}})
+    const key = `report:${userId}`
 
+    const cachedreports = await redis.get(key)
+
+    if(cachedreports){
+      return res.status(200).json({message:"Reports fetched succe....", Reports: cachedreports})
+    }
+    const reports = await Report.find({userId: {$eq: userId}})
+    await redis.set(key, JSON.stringify(reports), {ex: 3600})
     return res.status(200).json({message:"Reports fetched succe....", Reports: reports})
   } catch (error) {
     console.error("Error: ", error);
@@ -119,9 +130,9 @@ const interviewReports = async(req, res)=>{
 }
 
 
-router.post('/start', authMiddleware, startInterview)
+router.post('/start', authMiddleware, rateLimiterMiddleware, startInterview)
 router.post('/respond', authMiddleware, respondInterview)
 router.post('/end', authMiddleware, endInterview)
-router.post('/reports', authMiddleware, interviewReports)
+router.get('/reports', authMiddleware, interviewReports)
 
 module.exports = router;
