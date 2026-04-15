@@ -112,9 +112,7 @@ const endInterview = async(req, res)=>{
 const interviewReports = async(req, res)=>{
   try {
     const userId = req.user.id
-
     const key = `report:${userId}`
-
     const cachedreports = await redis.get(key)
 
     if(cachedreports){

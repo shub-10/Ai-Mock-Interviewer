@@ -8,9 +8,6 @@ const router = express.Router();
 const signupUser = async(req, res)=>{
   try {
     const {name, email, password} = req.body;
-    // console.log(name);
-    // console.log(email);
-    // console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({name, email, password: hashedPassword});
@@ -27,7 +24,6 @@ const loginUser = async(req, res)=>{
     const {email, password} = req.body;
     const user = await User.findOne({email: {$eq: email}});
     if(!user) return res.status(401).json({message: "Invalid email or password"});
-    // console.log("user: ", user);
     const validPassword = await bcrypt.compare(password, user.password);
     if(!validPassword) return res.status(401).json({message: "Invalid email or password"});
     const JWT_SECRET = process.env.JWT_SECRET;

@@ -13,13 +13,14 @@ export const Report = () => {
     const getReports = async () => {
       try {
         const res = await fetch(`${serverBaseUrl}/api/v2/interview/reports`, {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         })
         const repo = await res.json()
+        console.log("reports: ", repo)
         setReports(repo.Reports)
       } catch (err) {
         console.error(err)
